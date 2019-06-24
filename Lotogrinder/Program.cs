@@ -19,7 +19,25 @@ namespace Lotogrinder
             Console.Write("Tamanho de cada combinação: ");
             string sK = Console.ReadLine();
 
+            DateTime inicio = DateTime.Now;
+
+            Console.WriteLine();
+            Console.WriteLine("Início: {0}", inicio.ToString("dd/MM/yyyy hh:mm:ss"));
+            Console.WriteLine();
+
             Combinacoes(int.Parse(sN), int.Parse(sK));
+
+            DateTime termino = DateTime.Now;
+
+            Console.WriteLine();
+            Console.WriteLine("Término: {0}", termino.ToString("dd/MM/yyyy hh:mm:ss"));
+            Console.WriteLine();
+
+            TimeSpan duracao = termino - inicio;
+
+            Console.WriteLine();
+            Console.WriteLine("Duração: {0}", duracao.ToString());
+            Console.WriteLine();
 
             Console.WriteLine();
             Console.Write("Tecle <ENTER> para encerrar...");
@@ -62,25 +80,25 @@ namespace Lotogrinder
                 Console.WriteLine();
             }
 
-            Console.WriteLine();
-            Console.Write("Gravar em arquivo TXT? [S/N]:");
-            string s = Console.ReadLine();
+            //Console.WriteLine();
+            //Console.Write("Gravar em arquivo TXT? [S/N]:");
+            //string s = Console.ReadLine();
 
-            if (s.ToUpper() == "S")
-            {
-                Combinatoria.GravarCombinacoesTXT(listaCombinacoes);
-            }
+            //if (s.ToUpper() == "S")
+            //{
+            //    Combinatoria.GravarCombinacoesTXT(listaCombinacoes);
+            //}
 
-            Console.WriteLine();
-            Console.Write("Gravar em tabela? [S/N]:");
-            string s2 = Console.ReadLine();
+            //Console.WriteLine();
+            //Console.Write("Gravar em tabela? [S/N]:");
+            //string s2 = Console.ReadLine();
 
-            if (s2.ToUpper() == "S")
-            {
-                Console.WriteLine("Gravando...");
-                new DB().BulkCombinacao(listaCombinacoes);
-                Console.WriteLine("Gravado com sucesso!");
-            }
+            //if (s2.ToUpper() == "S")
+            //{
+            Console.WriteLine("\nGravando...");
+            new DB().BulkCombinacao(listaCombinacoes);
+            Console.WriteLine("Gravado com sucesso!");
+            //}
 
         }
     }
