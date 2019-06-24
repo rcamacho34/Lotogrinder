@@ -10,38 +10,65 @@ namespace Lotogrinder
     {
         static void Main(string[] args)
         {
+            ConsoleKeyInfo opcao;
+
             Console.WriteLine("*******       GERADOR DE COMBINAÇÒES       *******");
             Console.WriteLine();
 
-            Console.Write("Quantidade de números a combinar: ");
-            string sN = Console.ReadLine();
-
-            Console.Write("Tamanho de cada combinação: ");
-            string sK = Console.ReadLine();
-
-            DateTime inicio = DateTime.Now;
-
-            Console.WriteLine();
-            Console.WriteLine("Início: {0}", inicio.ToString("dd/MM/yyyy hh:mm:ss"));
-            Console.WriteLine();
-
-            Combinacoes(int.Parse(sN), int.Parse(sK));
-
-            DateTime termino = DateTime.Now;
+            do
+            {
+                Console.WriteLine("[1] - Gerar combinação (n, r)");
+                Console.WriteLine("[2] - Baixar resultado do concurso atual");
+                Console.WriteLine("[3] - Processar atraso das combinações ");
+                Console.WriteLine();
+                Console.WriteLine("Escolha a opção desejada:");
+                opcao = Console.ReadKey();
+            }
+            while (opcao.Key != ConsoleKey.D1 && opcao.Key != ConsoleKey.D2 && opcao.Key != ConsoleKey.D3 && opcao.Key != ConsoleKey.D0);
 
             Console.WriteLine();
-            Console.WriteLine("Término: {0}", termino.ToString("dd/MM/yyyy hh:mm:ss"));
-            Console.WriteLine();
 
-            TimeSpan duracao = termino - inicio;
+            if (opcao.Key == ConsoleKey.D0)
+                return;
+            else
+            {
+                if (opcao.Key == ConsoleKey.D1)
+                {
+                    Console.WriteLine();
+                    Console.WriteLine("***   Gerar combinação (n, r)   ***");
+                    Console.WriteLine();
 
-            Console.WriteLine();
-            Console.WriteLine("Duração: {0}", duracao.ToString());
-            Console.WriteLine();
+                    Console.Write("Quantidade de números a combinar: ");
+                    string sN = Console.ReadLine();
 
-            Console.WriteLine();
-            Console.Write("Tecle <ENTER> para encerrar...");
-            Console.Read();
+                    Console.Write("Tamanho de cada combinação: ");
+                    string sK = Console.ReadLine();
+
+                    DateTime inicio = DateTime.Now;
+
+                    Console.WriteLine();
+                    Console.WriteLine("Início: {0}", inicio.ToString("dd/MM/yyyy hh:mm:ss"));
+                    Console.WriteLine();
+
+                    Combinacoes(int.Parse(sN), int.Parse(sK));
+
+                    DateTime termino = DateTime.Now;
+
+                    Console.WriteLine();
+                    Console.WriteLine("Término: {0}", termino.ToString("dd/MM/yyyy hh:mm:ss"));
+                    Console.WriteLine();
+
+                    TimeSpan duracao = termino - inicio;
+
+                    Console.WriteLine();
+                    Console.WriteLine("Duração: {0}", duracao.ToString());
+                    Console.WriteLine();
+
+                    Console.WriteLine();
+                    Console.Write("Tecle <ENTER> para encerrar...");
+                    Console.Read();
+                }
+            }
         }
 
         private static void Combinacoes(int n, int k)
