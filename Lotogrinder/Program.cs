@@ -10,6 +10,8 @@ namespace Lotogrinder
     {
         static void Main(string[] args)
         {
+            Grinder.LerConcursoAtual();
+
             ConsoleKeyInfo opcao;
 
             Console.WriteLine("*******       GERADOR DE COMBINAÇÒES       *******");
@@ -18,8 +20,10 @@ namespace Lotogrinder
             do
             {
                 Console.WriteLine("[1] - Gerar combinação (n, r)");
-                Console.WriteLine("[2] - Baixar resultado do concurso atual");
-                Console.WriteLine("[3] - Processar atraso das combinações ");
+                Console.WriteLine("[2] - Carregar todos os concursos");
+                Console.WriteLine("[3] - Baixar resultado do concurso atual");
+                Console.WriteLine("[4] - Processar atraso das combinações ");
+                Console.WriteLine("[0] - Sair ");
                 Console.WriteLine();
                 Console.WriteLine("Escolha a opção desejada:");
                 opcao = Console.ReadKey();
@@ -68,6 +72,15 @@ namespace Lotogrinder
                     Console.Write("Tecle <ENTER> para encerrar...");
                     Console.Read();
                 }
+                else if (opcao.Key == ConsoleKey.D2)
+                {
+                    Console.WriteLine("\nGravando todos os concursos...");
+                    List<string[]> listaConcursos = Grinder.LerConcursos();
+
+                    new DB().BulkConcurso(listaConcursos);
+                    Console.WriteLine("Gravado com sucesso!");
+                }
+
             }
         }
 
