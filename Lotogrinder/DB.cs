@@ -9,7 +9,7 @@ namespace Lotogrinder
 {
     public class DB
     {
-        private SqlConnection Conn()
+        public SqlConnection Conn()
         {
             string strConexao = ConfigurationManager.ConnectionStrings["CONN_LF"].ConnectionString;
 
@@ -172,5 +172,133 @@ namespace Lotogrinder
             }
         }
 
+        public void BulkCombinacaoConcurso(List<int[]> lista)
+        {
+            using (SqlConnection con = Conn())
+            {
+                try
+                {
+                    using (SqlBulkCopy bulkCopy = new SqlBulkCopy(con))
+                    {
+                        DataTable dt = new DataTable();
+
+                        dt.Columns.Add(new DataColumn("IdCombinacao", typeof(int)));
+                        dt.Columns.Add(new DataColumn("IdConcurso", typeof(int)));
+                        dt.Columns.Add(new DataColumn("p11", typeof(int)));
+                        dt.Columns.Add(new DataColumn("p12", typeof(int)));
+                        dt.Columns.Add(new DataColumn("p13", typeof(int)));
+                        dt.Columns.Add(new DataColumn("p14", typeof(int)));
+                        dt.Columns.Add(new DataColumn("p15", typeof(int)));
+
+
+                        foreach (int[] item in lista)
+                        {
+                            dt.Rows.Add(item[0], item[1], item[2], item[3], 
+                                        item[4], item[5], item[6]);
+                        }
+
+                        if (con.State != ConnectionState.Open)
+                            con.Open();
+
+                        bulkCopy.BatchSize = 50;
+                        bulkCopy.DestinationTableName = "tbCombinacaoConcurso";
+                        bulkCopy.BulkCopyTimeout = 0;
+
+                        bulkCopy.ColumnMappings.Add(0, 0);
+                        bulkCopy.ColumnMappings.Add(1, 1);
+                        bulkCopy.ColumnMappings.Add(2, 2);
+                        bulkCopy.ColumnMappings.Add(3, 3);
+                        bulkCopy.ColumnMappings.Add(4, 4);
+                        bulkCopy.ColumnMappings.Add(5, 5);
+                        bulkCopy.ColumnMappings.Add(6, 6);
+
+                        bulkCopy.WriteToServer(dt);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("Erro no Bulkcopy: {0}", ex.Message);
+                    con.Close();
+                }
+            }
+        }
+
+
+        public DataSet Select(StringBuilder sb)
+        {
+            using (SqlConnection con = Conn())
+            {
+                using (SqlDataAdapter sda = new SqlDataAdapter())
+                {
+                    if (con.State != ConnectionState.Open)
+                        con.Open();
+
+                    SqlCommand cmd = new SqlCommand(sb.ToString());
+                    cmd.Connection = con;
+                    sda.SelectCommand = cmd;
+                    cmd.CommandTimeout = 0;
+
+                    using (DataSet ds = new DataSet())
+                    {
+                        sda.Fill(ds);
+
+                        return ds;
+                    }
+
+                }
+            }
+        }
+
+        public List<int[]> SelectConcursos()
+        {
+            List<int[]> listaConcursos = new List<int[]>();
+            int[] concurso = new int[17];
+
+            StringBuilder sb = new StringBuilder();
+
+            sb.AppendLine(@"SELECT Id, d1, d2, d3, d4, d5, d6, d7, d8, d9, d10, d11, d12, d13, d14, d15
+                            FROM tbConcurso ORDER BY Id");
+
+            DataTable dt = new DB().Select(sb).Tables[0];
+
+            foreach (DataRow item in dt.Rows)
+            {
+                concurso = new int[16];
+
+                concurso[0] = int.Parse(item["Id"].ToString());
+                concurso[1] = int.Parse(item["d1"].ToString());
+                concurso[2] = int.Parse(item["d2"].ToString());
+                concurso[3] = int.Parse(item["d3"].ToString());
+                concurso[4] = int.Parse(item["d4"].ToString());
+                concurso[5] = int.Parse(item["d5"].ToString());
+                concurso[6] = int.Parse(item["d6"].ToString());
+                concurso[7] = int.Parse(item["d7"].ToString());
+                concurso[8] = int.Parse(item["d8"].ToString());
+                concurso[9] = int.Parse(item["d9"].ToString());
+                concurso[10] = int.Parse(item["d10"].ToString());
+                concurso[11] = int.Parse(item["d11"].ToString());
+                concurso[12] = int.Parse(item["d12"].ToString());
+                concurso[13] = int.Parse(item["d13"].ToString());
+                concurso[14] = int.Parse(item["d14"].ToString());
+                concurso[15] = int.Parse(item["d15"].ToString());
+
+                listaConcursos.Add(concurso);
+            }
+
+            return listaConcursos;
+        }
+
+        public void InserirCombinacaoConcurso(int IdCombinacao, int IdConcurso, int p11, int p12, int p13, int p14, int p15)
+        {
+            StringBuilder sb = new StringBuilder();
+
+            sb.AppendFormat(@"IF NOT EXISTS (SELECT * FROM tbCombinacaoConcurso
+                                                WHERE IdCombinacao = {0}
+                                                AND IdConcurso = {1})
+                                    INSERT INTO tbCombinacaoConcurso VALUES ({0}, {1}, {2}, {3}, {4}, {5}, {6})",
+                IdCombinacao, IdConcurso, p11, p12, p13, p14, p15);
+
+            Exec(sb);
+        }
     }
 }
