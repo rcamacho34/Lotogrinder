@@ -10,7 +10,7 @@ namespace Lotogrinder
     {
         static void Main(string[] args)
         {
-            Grinder.LerConcursoAtual();
+           // Grinder.LerConcursoAtual();
 
             ConsoleKeyInfo opcao;
 

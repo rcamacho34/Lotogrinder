@@ -95,6 +95,7 @@ namespace Lotogrinder
                 }
                 catch (Exception ex)
                 {
+                    Console.WriteLine("Erro no Bulkcopy: {0}", ex.Message);
                     con.Close();
                 }
             }
