@@ -16,7 +16,7 @@ namespace Lotogrinder
 
             HtmlDocument htmlDoc = new HtmlDocument();
 
-            htmlDoc.Load(@"D:\Loteria\D_lotfac\d_lotfac.htm");
+            htmlDoc.Load(@"C:\Loterias\d_lotfac.htm");
 
             if (htmlDoc.ParseErrors != null && htmlDoc.ParseErrors.Count() > 0)
             {

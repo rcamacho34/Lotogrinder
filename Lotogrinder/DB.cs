@@ -111,7 +111,7 @@ namespace Lotogrinder
                     {
                         DataTable dt = new DataTable();
 
-                        dt.Columns.Add(new DataColumn("Numero", typeof(int)));
+                        dt.Columns.Add(new DataColumn("Id", typeof(int)));
                         dt.Columns.Add(new DataColumn("DataSorteio", typeof(DateTime)));
                         dt.Columns.Add(new DataColumn("d1", typeof(int)));
                         dt.Columns.Add(new DataColumn("d2", typeof(int)));
@@ -143,29 +143,30 @@ namespace Lotogrinder
                         bulkCopy.DestinationTableName = "tbConcurso";
                         bulkCopy.BulkCopyTimeout = 0;
 
-                        bulkCopy.ColumnMappings.Add(0, 1);
-                        bulkCopy.ColumnMappings.Add(1, 2);
-                        bulkCopy.ColumnMappings.Add(2, 3);
-                        bulkCopy.ColumnMappings.Add(3, 4);
-                        bulkCopy.ColumnMappings.Add(4, 5);
-                        bulkCopy.ColumnMappings.Add(5, 6);
-                        bulkCopy.ColumnMappings.Add(6, 7);
-                        bulkCopy.ColumnMappings.Add(7, 8);
-                        bulkCopy.ColumnMappings.Add(8, 9);
-                        bulkCopy.ColumnMappings.Add(9, 10);
-                        bulkCopy.ColumnMappings.Add(10, 11);
-                        bulkCopy.ColumnMappings.Add(11, 12);
-                        bulkCopy.ColumnMappings.Add(12, 13);
-                        bulkCopy.ColumnMappings.Add(13, 14);
-                        bulkCopy.ColumnMappings.Add(14, 15);
-                        bulkCopy.ColumnMappings.Add(15, 16);
-                        bulkCopy.ColumnMappings.Add(16, 17);
+                        bulkCopy.ColumnMappings.Add(0, 0);
+                        bulkCopy.ColumnMappings.Add(1, 1);
+                        bulkCopy.ColumnMappings.Add(2, 2);
+                        bulkCopy.ColumnMappings.Add(3, 3);
+                        bulkCopy.ColumnMappings.Add(4, 4);
+                        bulkCopy.ColumnMappings.Add(5, 5);
+                        bulkCopy.ColumnMappings.Add(6, 6);
+                        bulkCopy.ColumnMappings.Add(7, 7);
+                        bulkCopy.ColumnMappings.Add(8, 8);
+                        bulkCopy.ColumnMappings.Add(9, 9);
+                        bulkCopy.ColumnMappings.Add(10, 10);
+                        bulkCopy.ColumnMappings.Add(11, 11);
+                        bulkCopy.ColumnMappings.Add(12, 12);
+                        bulkCopy.ColumnMappings.Add(13, 13);
+                        bulkCopy.ColumnMappings.Add(14, 14);
+                        bulkCopy.ColumnMappings.Add(15, 15);
+                        bulkCopy.ColumnMappings.Add(16, 16);
 
                         bulkCopy.WriteToServer(dt);
                     }
                 }
                 catch (Exception ex)
                 {
+                    Console.WriteLine("Erro no Bulkcopy: {0}", ex.Message);
                     con.Close();
                 }
             }
