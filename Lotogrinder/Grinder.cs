@@ -107,7 +107,7 @@ namespace Lotogrinder
 
             StringBuilder sb = new StringBuilder();
 
-            sb.AppendLine("SELECT * FROM tbCombinacao where Id = 740495");
+            sb.AppendLine("SELECT top 10000 * FROM tbCombinacao");
 
             using (SqlConnection con = new DB().Conn())
             {
@@ -185,7 +185,26 @@ namespace Lotogrinder
                     }
 
                     Console.WriteLine();
-                    Console.WriteLine("Gravando...");
+
+                    //int n = 0;
+
+                    //sb.Clear();
+
+                    //foreach (int[] item in listaCombinacaoConcurso)
+                    //{
+                    //    n++;
+                    //    sb.AppendLine(@"INSERT INTO tbCombinacaoConcurso VALUES (" + item[0] + ", " + item[1] + "," + item[2] + "," + item[3] + "," + item[4] + "," + item[5] + "," + item[6] + ")");
+
+                    //    if (n % 10000 == 0 || n == listaCombinacaoConcurso.Count)
+                    //    {
+                    //        Console.Write("\rGravando {0} linhas", n);
+                    //        new DB().InserirCombinacaoConcurso1000(sb);
+                    //        sb.Clear();
+                    //    }
+                    //}
+                    //Console.WriteLine("\rGravação realizada com sucesso!");
+
+                    Console.WriteLine("Gravando {0} linhas...", listaCombinacaoConcurso.Count);
                     new DB().BulkCombinacaoConcurso(listaCombinacaoConcurso);
                     Console.WriteLine("Gravação realizada com sucesso!");
                 }

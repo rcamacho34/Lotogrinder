@@ -10,8 +10,6 @@ namespace Lotogrinder
     {
         static void Main(string[] args)
         {
-            // Grinder.LerConcursoAtual();
-
             ConsoleKeyInfo opcao;
 
             Console.WriteLine("*******       GERADOR DE COMBINAÇÒES       *******");

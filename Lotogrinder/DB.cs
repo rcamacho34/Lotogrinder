@@ -11,7 +11,9 @@ namespace Lotogrinder
     {
         public SqlConnection Conn()
         {
-            string strConexao = ConfigurationManager.ConnectionStrings["CONN_LF"].ConnectionString;
+            string SQLServer = Environment.MachineName;
+
+            string strConexao = ConfigurationManager.ConnectionStrings["CONN_" + SQLServer].ConnectionString;
 
             SqlConnection conexao = new SqlConnection(strConexao);
 
@@ -200,7 +202,7 @@ namespace Lotogrinder
                         if (con.State != ConnectionState.Open)
                             con.Open();
 
-                        bulkCopy.BatchSize = 50;
+                        bulkCopy.BatchSize = 5000;
                         bulkCopy.DestinationTableName = "tbCombinacaoConcurso";
                         bulkCopy.BulkCopyTimeout = 0;
 
@@ -292,13 +294,16 @@ namespace Lotogrinder
         {
             StringBuilder sb = new StringBuilder();
 
-            sb.AppendFormat(@"IF NOT EXISTS (SELECT * FROM tbCombinacaoConcurso
-                                                WHERE IdCombinacao = {0}
-                                                AND IdConcurso = {1})
-                                    INSERT INTO tbCombinacaoConcurso VALUES ({0}, {1}, {2}, {3}, {4}, {5}, {6})",
-                IdCombinacao, IdConcurso, p11, p12, p13, p14, p15);
+            sb.AppendFormat(@"INSERT INTO tbCombinacaoConcurso VALUES ({0}, {1}, {2}, {3}, {4}, {5}, {6})",
+                                IdCombinacao, IdConcurso, p11, p12, p13, p14, p15);
 
             Exec(sb);
         }
+
+        public void InserirCombinacaoConcurso1000(StringBuilder sb)
+        {
+            Exec(sb);
+        }
+
     }
 }
