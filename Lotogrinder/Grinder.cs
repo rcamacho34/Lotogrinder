@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using HtmlAgilityPack;
 using System.Data;
 using System.Data.SqlClient;
+using System.Configuration;
 
 namespace Lotogrinder
 {
@@ -95,7 +96,25 @@ namespace Lotogrinder
             }
         }
 
-        public static void ProcessarAtraso()
+        public static void ProcessarLotesAtraso(int lotes)
+        {
+            int tamanhoLote = int.Parse(ConfigurationManager.AppSettings["LOTE_PROCESSAMENTO"].ToString());
+
+            int UltimoLote = new DB().GetUltimoLote();
+
+            int lower = UltimoLote + 1;
+            int upper = lower + (tamanhoLote - 1);
+
+            for (int i = 0; i < lotes; i++)
+            {
+                ProcessarAtraso(lower, upper);
+
+                lower = upper + 1;
+                upper = lower + (tamanhoLote - 1);
+            }
+        }
+
+        public static void ProcessarAtraso(int inicio, int fim)
         {
             List<int[]> listaCombinacaoConcurso = new List<int[]>();
 
@@ -107,18 +126,23 @@ namespace Lotogrinder
 
             StringBuilder sb = new StringBuilder();
 
-            sb.AppendLine("SELECT top 10000 * FROM tbCombinacao");
+            sb.AppendFormat("SELECT * FROM tbCombinacao WHERE Id BETWEEN {0} AND {1}", inicio, fim);
 
             using (SqlConnection con = new DB().Conn())
             {
                 con.Open();
 
+                DateTime inicioLote = DateTime.Now;
+                
                 using (SqlCommand cmd = new SqlCommand(sb.ToString(), con))
                 {
                     cmd.CommandType = CommandType.Text;
 
                     using (SqlDataReader reader = cmd.ExecuteReader())
                     {
+                        Console.WriteLine("Processando Concursos: {0} a {1}...", inicio, fim);
+                        Console.WriteLine();
+
                         // Loop Combinações
                         while (reader.Read())
                         {
@@ -127,21 +151,21 @@ namespace Lotogrinder
                             combinacao = new int[16];
 
                             combinacao[0] = reader.GetInt32(0);
-                            combinacao[1] = reader.GetInt32(1);
-                            combinacao[2] = reader.GetInt32(2);
-                            combinacao[3] = reader.GetInt32(3);
-                            combinacao[4] = reader.GetInt32(4);
-                            combinacao[5] = reader.GetInt32(5);
-                            combinacao[6] = reader.GetInt32(6);
-                            combinacao[7] = reader.GetInt32(7);
-                            combinacao[8] = reader.GetInt32(8);
-                            combinacao[9] = reader.GetInt32(9);
-                            combinacao[10] = reader.GetInt32(10);
-                            combinacao[11] = reader.GetInt32(11);
-                            combinacao[12] = reader.GetInt32(12);
-                            combinacao[13] = reader.GetInt32(13);
-                            combinacao[14] = reader.GetInt32(14);
-                            combinacao[15] = reader.GetInt32(15);
+                            combinacao[1] = reader.GetByte(1);
+                            combinacao[2] = reader.GetByte(2);
+                            combinacao[3] = reader.GetByte(3);
+                            combinacao[4] = reader.GetByte(4);
+                            combinacao[5] = reader.GetByte(5);
+                            combinacao[6] = reader.GetByte(6);
+                            combinacao[7] = reader.GetByte(7);
+                            combinacao[8] = reader.GetByte(8);
+                            combinacao[9] = reader.GetByte(9);
+                            combinacao[10] = reader.GetByte(10);
+                            combinacao[11] = reader.GetByte(11);
+                            combinacao[12] = reader.GetByte(12);
+                            combinacao[13] = reader.GetByte(13);
+                            combinacao[14] = reader.GetByte(14);
+                            combinacao[15] = reader.GetByte(15);
 
                             int contadorDezena = 0;
 
@@ -206,7 +230,13 @@ namespace Lotogrinder
 
                     Console.WriteLine("Gravando {0} linhas...", listaCombinacaoConcurso.Count);
                     new DB().BulkCombinacaoConcurso(listaCombinacaoConcurso);
-                    Console.WriteLine("Gravação realizada com sucesso!");
+
+                    DateTime fimLote = DateTime.Now;
+
+                    TimeSpan duracaoLote = fimLote - inicioLote;
+
+                    Console.WriteLine("Gravação realizada com sucesso! Duração: {0}", duracaoLote.ToString());
+                    Console.WriteLine();
                 }
             }
         }

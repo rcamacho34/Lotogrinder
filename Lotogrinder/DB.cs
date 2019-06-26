@@ -251,6 +251,23 @@ namespace Lotogrinder
             }
         }
 
+        public int GetUltimoLote()
+        {
+            int retorno = 0;
+            StringBuilder sb = new StringBuilder();
+
+            sb.AppendLine("SELECT ISNULL(MAX(IdCombinacao), 0) As UltimoLote FROM tbCombinacaoConcurso");
+
+            DataTable dt = new DB().Select(sb).Tables[0];
+
+            if (dt.Rows.Count > 0)
+            {
+                retorno = int.Parse(dt.Rows[0]["UltimoLote"].ToString());
+            }
+
+            return retorno;
+        }
+
         public List<int[]> SelectConcursos()
         {
             List<int[]> listaConcursos = new List<int[]>();
