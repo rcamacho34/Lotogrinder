@@ -140,7 +140,7 @@ namespace Lotogrinder
 
                     using (SqlDataReader reader = cmd.ExecuteReader())
                     {
-                        Console.WriteLine("Processando Concursos: {0} a {1}...", inicio, fim);
+                        Console.WriteLine("Processando combinações: {0} a {1}...", inicio, fim);
                         Console.WriteLine();
 
                         // Loop Combinações

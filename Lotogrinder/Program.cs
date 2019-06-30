@@ -80,43 +80,48 @@ namespace Lotogrinder
                 }
                 else if (opcao.Key == ConsoleKey.D4)
                 {
-                    Console.WriteLine("Informe a quantidade de lotes:");
-                    Console.WriteLine();
-
-                    int qtdLotes = 0;
-                    bool blnLotes = false;
-
                     do
                     {
-                        blnLotes = int.TryParse(Console.ReadLine(), out qtdLotes);
+                        Console.WriteLine();
+                        Console.WriteLine("Informe a quantidade de lotes:");
+                        Console.WriteLine();
+
+                        int qtdLotes = 0;
+                        bool blnLotes = false;
+
+                        do
+                        {
+                            blnLotes = int.TryParse(Console.ReadLine(), out qtdLotes);
+                        }
+                        while (!blnLotes);
+
+                        Console.WriteLine();
+
+                        DateTime inicio = DateTime.Now;
+
+                        Console.WriteLine();
+                        Console.WriteLine("Início: {0}", inicio.ToString("dd/MM/yyyy hh:mm:ss"));
+                        Console.WriteLine();
+
+                        Grinder.ProcessarLotesAtraso(qtdLotes);
+
+                        DateTime termino = DateTime.Now;
+
+                        Console.WriteLine();
+                        Console.WriteLine("Término: {0}", termino.ToString("dd/MM/yyyy hh:mm:ss"));
+                        Console.WriteLine();
+
+                        TimeSpan duracao = termino - inicio;
+
+                        Console.WriteLine();
+                        Console.WriteLine("Duração: {0}", duracao.ToString());
+                        Console.WriteLine();
+
+                        Console.WriteLine();
+                        Console.Write("Processar novos lotes? [S/N]: ");
+                        opcao = Console.ReadKey();
                     }
-                    while (!blnLotes);
-
-                    Console.WriteLine();
-
-                    DateTime inicio = DateTime.Now;
-
-                    Console.WriteLine();
-                    Console.WriteLine("Início: {0}", inicio.ToString("dd/MM/yyyy hh:mm:ss"));
-                    Console.WriteLine();
-
-                    Grinder.ProcessarLotesAtraso(qtdLotes);
-
-                    DateTime termino = DateTime.Now;
-
-                    Console.WriteLine();
-                    Console.WriteLine("Término: {0}", termino.ToString("dd/MM/yyyy hh:mm:ss"));
-                    Console.WriteLine();
-
-                    TimeSpan duracao = termino - inicio;
-
-                    Console.WriteLine();
-                    Console.WriteLine("Duração: {0}", duracao.ToString());
-                    Console.WriteLine();
-
-                    Console.WriteLine();
-                    Console.Write("Tecle <ENTER> para encerrar...");
-                    Console.Read();
+                    while (opcao.Key != ConsoleKey.N);
                 }
 
 
