@@ -140,14 +140,12 @@ namespace Lotogrinder
 
                     using (SqlDataReader reader = cmd.ExecuteReader())
                     {
-                        Console.WriteLine("Processando Concursos: {0} a {1}...", inicio, fim);
+                        Console.WriteLine("Processando combinações: {0} a {1}...", inicio, fim);
                         Console.WriteLine();
 
                         // Loop Combinações
                         while (reader.Read())
                         {
-                            Console.Write("\rProcessando combinação {0}...", combinacao[0]);
-
                             combinacao = new int[16];
 
                             combinacao[0] = reader.GetInt32(0);
@@ -166,6 +164,8 @@ namespace Lotogrinder
                             combinacao[13] = reader.GetByte(13);
                             combinacao[14] = reader.GetByte(14);
                             combinacao[15] = reader.GetByte(15);
+
+                            Console.Write("\rProcessando combinação {0}...", combinacao[0]);
 
                             int contadorDezena = 0;
 
