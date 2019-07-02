@@ -107,14 +107,19 @@ namespace Lotogrinder
 
             for (int i = 0; i < lotes; i++)
             {
-                ProcessarAtraso(lower, upper);
+                ProcessarAtraso(lower, upper, false);
 
                 lower = upper + 1;
                 upper = lower + (tamanhoLote - 1);
             }
         }
 
-        public static void ProcessarAtraso(int inicio, int fim)
+        public static void ProcessarLotesAtrasoConcursoAtual ()
+        {
+            ProcessarAtraso(1, 3268760, true);
+        }
+
+        public static void ProcessarAtraso(int inicio, int fim, bool atual)
         {
             List<int[]> listaCombinacaoConcurso = new List<int[]>();
 
@@ -122,7 +127,7 @@ namespace Lotogrinder
 
             List<int[]> listaConcursos = new List<int[]>();
 
-            listaConcursos = new DB().SelectConcursos();
+            listaConcursos = new DB().SelectConcursos(atual);
 
             StringBuilder sb = new StringBuilder();
 

@@ -268,7 +268,7 @@ namespace Lotogrinder
             return retorno;
         }
 
-        public List<int[]> SelectConcursos()
+        public List<int[]> SelectConcursos(bool atual)
         {
             List<int[]> listaConcursos = new List<int[]>();
             int[] concurso = new int[17];
@@ -276,7 +276,14 @@ namespace Lotogrinder
             StringBuilder sb = new StringBuilder();
 
             sb.AppendLine(@"SELECT Id, d1, d2, d3, d4, d5, d6, d7, d8, d9, d10, d11, d12, d13, d14, d15
-                            FROM tbConcurso ORDER BY Id");
+                            FROM tbConcurso ");
+
+            if (atual)
+            {
+                sb.AppendLine("WHERE Id = (SELECT max(Id) FROM tbConcurso)");
+            }
+
+            sb.AppendLine("ORDER BY Id");
 
             DataTable dt = new DB().Select(sb).Tables[0];
 
