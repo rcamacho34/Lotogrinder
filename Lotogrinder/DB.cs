@@ -174,7 +174,7 @@ namespace Lotogrinder
             }
         }
 
-        public void BulkCombinacaoConcurso(List<int[]> lista)
+        public void BulkCombinacaoConcurso(List<int[]> lista, string tabela)
         {
             using (SqlConnection con = Conn())
             {
@@ -203,7 +203,7 @@ namespace Lotogrinder
                             con.Open();
 
                         bulkCopy.BatchSize = 5000;
-                        bulkCopy.DestinationTableName = "tbCombinacaoConcurso";
+                        bulkCopy.DestinationTableName = "tbCombinacaoConcurso_" + tabela;
                         bulkCopy.BulkCopyTimeout = 0;
 
                         bulkCopy.ColumnMappings.Add(0, 0);
@@ -249,23 +249,6 @@ namespace Lotogrinder
 
                 }
             }
-        }
-
-        public int GetUltimoLote()
-        {
-            int retorno = 0;
-            StringBuilder sb = new StringBuilder();
-
-            sb.AppendLine("SELECT ISNULL(MAX(IdCombinacao), 0) As UltimoLote FROM tbCombinacaoConcurso");
-
-            DataTable dt = new DB().Select(sb).Tables[0];
-
-            if (dt.Rows.Count > 0)
-            {
-                retorno = int.Parse(dt.Rows[0]["UltimoLote"].ToString());
-            }
-
-            return retorno;
         }
 
         public List<int[]> SelectConcursos(bool atual)
@@ -327,6 +310,31 @@ namespace Lotogrinder
         public void InserirCombinacaoConcurso1000(StringBuilder sb)
         {
             Exec(sb);
+        }
+
+        public void UpdateCombinacaoAtraso(int IdCombinacao, int p11, int p12, int p13, int p14, int p15)
+        {
+            StringBuilder sb = new StringBuilder();
+
+            sb.AppendLine(@"UPDATE tbCombinacao SET ");
+
+            if (p11 != 0)
+                sb.AppendFormat("IdUltimoConcurso11 = {0}, ", p11);
+            if (p12 != 0)
+                sb.AppendFormat("IdUltimoConcurso12 = {0}, ", p11);
+            if (p13 != 0)
+                sb.AppendFormat("IdUltimoConcurso13 = {0}, ", p11);
+            if (p14 != 0)
+                sb.AppendFormat("IdUltimoConcurso14 = {0}, ", p11);
+            if (p15 != 0)
+                sb.AppendFormat("IdUltimoConcurso15 = {0}, ", p11);
+
+            sb.AppendFormat("WHERE Id = {0}", IdCombinacao);
+
+            sb.Replace(", WHERE", " WHERE");
+
+            Exec(sb);
+
         }
 
     }

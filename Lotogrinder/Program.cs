@@ -83,28 +83,13 @@ namespace Lotogrinder
                 {
                     do
                     {
-                        Console.WriteLine();
-                        Console.WriteLine("Informe a quantidade de lotes:");
-                        Console.WriteLine();
-
-                        int qtdLotes = 0;
-                        bool blnLotes = false;
-
-                        do
-                        {
-                            blnLotes = int.TryParse(Console.ReadLine(), out qtdLotes);
-                        }
-                        while (!blnLotes);
-
-                        Console.WriteLine();
-
                         DateTime inicio = DateTime.Now;
 
                         Console.WriteLine();
                         Console.WriteLine("Início: {0}", inicio.ToString("dd/MM/yyyy hh:mm:ss"));
                         Console.WriteLine();
 
-                        Grinder.ProcessarLotesAtraso(qtdLotes);
+                        Grinder.ProcessarAtraso(300001, 500000, false);
 
                         DateTime termino = DateTime.Now;
 
@@ -126,8 +111,6 @@ namespace Lotogrinder
                 }
                 else if (opcao.Key == ConsoleKey.D5)
                 {
-                    Console.WriteLine();
-
                     DateTime inicio = DateTime.Now;
 
                     Console.WriteLine();

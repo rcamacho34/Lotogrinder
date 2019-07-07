@@ -7,6 +7,7 @@ using HtmlAgilityPack;
 using System.Data;
 using System.Data.SqlClient;
 using System.Configuration;
+using System.IO;
 
 namespace Lotogrinder
 {
@@ -96,25 +97,7 @@ namespace Lotogrinder
             }
         }
 
-        public static void ProcessarLotesAtraso(int lotes)
-        {
-            int tamanhoLote = int.Parse(ConfigurationManager.AppSettings["LOTE_PROCESSAMENTO"].ToString());
-
-            int UltimoLote = new DB().GetUltimoLote();
-
-            int lower = UltimoLote + 1;
-            int upper = lower + (tamanhoLote - 1);
-
-            for (int i = 0; i < lotes; i++)
-            {
-                ProcessarAtraso(lower, upper, false);
-
-                lower = upper + 1;
-                upper = lower + (tamanhoLote - 1);
-            }
-        }
-
-        public static void ProcessarLotesAtrasoConcursoAtual ()
+        public static void ProcessarLotesAtrasoConcursoAtual()
         {
             ProcessarAtraso(1, 3268760, true);
         }
@@ -124,6 +107,12 @@ namespace Lotogrinder
             List<int[]> listaCombinacaoConcurso = new List<int[]>();
 
             int[] combinacao = new int[16];
+
+            int p11 = 0;
+            int p12 = 0;
+            int p13 = 0;
+            int p14 = 0;
+            int p15 = 0;
 
             List<int[]> listaConcursos = new List<int[]>();
 
@@ -138,7 +127,7 @@ namespace Lotogrinder
                 con.Open();
 
                 DateTime inicioLote = DateTime.Now;
-                
+
                 using (SqlCommand cmd = new SqlCommand(sb.ToString(), con))
                 {
                     cmd.CommandType = CommandType.Text;
@@ -178,7 +167,7 @@ namespace Lotogrinder
                             foreach (int[] concurso in listaConcursos)
                             {
                                 contadorDezena = 0;
-                                
+
                                 //Loop dezenas da combinação
                                 for (int i = 1; i <= 15; i++)
                                 {
@@ -190,51 +179,71 @@ namespace Lotogrinder
                                         {
                                             contadorDezena++;
                                         }
-                                    }                                    
+                                    }
                                 }
 
                                 if (contadorDezena > 10)
                                 {
-                                    int p11 = contadorDezena >= 11 ? 1 : 0;
-                                    int p12 = contadorDezena >= 12 ? 1 : 0;
-                                    int p13 = contadorDezena >= 13 ? 1 : 0;
-                                    int p14 = contadorDezena >= 14 ? 1 : 0;
-                                    int p15 = contadorDezena >= 15 ? 1 : 0;
+                                    p11 = contadorDezena >= 11 ? concurso[0] : p11;
+                                    p12 = contadorDezena >= 12 ? concurso[0] : p12;
+                                    p13 = contadorDezena >= 13 ? concurso[0] : p13;
+                                    p14 = contadorDezena >= 14 ? concurso[0] : p14;
+                                    p15 = contadorDezena >= 15 ? concurso[0] : p15;
 
-                                    listaCombinacaoConcurso.Add(
-                                        new int[] { combinacao[0], concurso[0], p11, p12, p13, p14, p15 }
-                                    );
-
+//                                    new DB().UpdateCombinacaoAtraso(combinacao[0], p11, p12, p13, p14, p15);
                                 }
 
-                            }
+                            } // loop Concursos
 
-                        }
+                            listaCombinacaoConcurso.Add(
+                                new int[] { combinacao[0], p11, p12, p13, p14, p15 }
+                            );
+
+                        } // loop Combinações
 
                     }
 
                     Console.WriteLine();
 
-                    //int n = 0;
+                    sb.Clear();
 
-                    //sb.Clear();
+                    int n = 0;
 
-                    //foreach (int[] item in listaCombinacaoConcurso)
-                    //{
-                    //    n++;
-                    //    sb.AppendLine(@"INSERT INTO tbCombinacaoConcurso VALUES (" + item[0] + ", " + item[1] + "," + item[2] + "," + item[3] + "," + item[4] + "," + item[5] + "," + item[6] + ")");
+                    foreach (int[] item in listaCombinacaoConcurso)
+                    {
+                        n++;
+                        Console.Write("\rAtualizando concurso {0}", n);
 
-                    //    if (n % 10000 == 0 || n == listaCombinacaoConcurso.Count)
-                    //    {
-                    //        Console.Write("\rGravando {0} linhas", n);
-                    //        new DB().InserirCombinacaoConcurso1000(sb);
-                    //        sb.Clear();
-                    //    }
-                    //}
-                    //Console.WriteLine("\rGravação realizada com sucesso!");
+                        sb.AppendLine(@"UPDATE tbCombinacao SET ");
 
-                    Console.WriteLine("Gravando {0} linhas...", listaCombinacaoConcurso.Count);
-                    new DB().BulkCombinacaoConcurso(listaCombinacaoConcurso);
+                        if (item[1] != 0)
+                            sb.AppendFormat("IdUltimoConcurso11 = {0}, ", item[1]);
+                        if (item[2] != 0)
+                            sb.AppendFormat("IdUltimoConcurso12 = {0}, ", item[2]);
+                        if (item[3] != 0)
+                            sb.AppendFormat("IdUltimoConcurso13 = {0}, ", item[3]);
+                        if (item[4] != 0)
+                            sb.AppendFormat("IdUltimoConcurso14 = {0}, ", item[4]);
+                        if (item[5] != 0)
+                            sb.AppendFormat("IdUltimoConcurso15 = {0}, ", item[5]);
+
+                        sb.AppendFormat("WHERE Id = {0} \n", item[0]);
+
+                        sb.Replace(", WHERE", " WHERE");
+
+                        if (n % 5000 == 0)
+                        {
+                            new DB().Exec(sb);
+                            sb.Clear();
+                            Console.Write("\rGravando {0}...", n);
+                        }
+
+                        //new DB().UpdateCombinacaoAtraso(item[0], item[1], item[2], item[3], item[4], item[5]);
+                    }
+                    Console.WriteLine("\rGravação realizada com sucesso!");
+
+                    //Console.WriteLine("Gravando {0} linhas...", listaCombinacaoConcurso.Count);
+                    //new DB().BulkCombinacaoConcurso(listaCombinacaoConcurso, tabela);
 
                     DateTime fimLote = DateTime.Now;
 
@@ -246,6 +255,25 @@ namespace Lotogrinder
             }
         }
 
+        public static void GerarScriptCombinacaoConcurso(int qtdTabelas)
+        {
+            string linha = File.ReadAllText(@"D:\Loteria\DB_LF\combinacaoconcurso.sql");
 
+            string tabela = "";
+            string retorno = "";
+
+            using (StreamWriter writetext = new StreamWriter(@"D:\Loteria\DB_LF\combinacaoconcurso2.sql"))
+            {
+                for (int i = 2; i <= qtdTabelas; i++)
+                {
+                    tabela = "_" + i.ToString().PadLeft(3, '0');
+
+                    retorno += linha.Replace("_001", tabela);
+                    retorno += "\n\n";
+                }
+
+                writetext.WriteLine(retorno);
+            }
+        }
     }
 }
