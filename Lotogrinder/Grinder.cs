@@ -231,8 +231,13 @@ namespace Lotogrinder
 
                         sb.Replace(", WHERE", " WHERE");
 
-                        if (n % 5000 == 0)
+                        if (n % 5000 == 0 || n == 268760)
                         {
+                            if (n == 268760)
+                            {
+                                ;
+                            }
+
                             new DB().Exec(sb);
                             sb.Clear();
                             Console.Write("\rGravando {0}...", n);
