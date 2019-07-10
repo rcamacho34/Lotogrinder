@@ -163,6 +163,12 @@ namespace Lotogrinder
 
                             int contadorDezena = 0;
 
+                            p11 = 0;
+                            p12 = 0;
+                            p13 = 0;
+                            p14 = 0;
+                            p15 = 0;
+
                             // Loop Concursos
                             foreach (int[] concurso in listaConcursos)
                             {
@@ -188,7 +194,7 @@ namespace Lotogrinder
                                     p12 = contadorDezena >= 12 ? concurso[0] : p12;
                                     p13 = contadorDezena >= 13 ? concurso[0] : p13;
                                     p14 = contadorDezena >= 14 ? concurso[0] : p14;
-                                    p15 = contadorDezena >= 15 ? concurso[0] : p15;
+                                    p15 = contadorDezena == 15 ? concurso[0] : p15;
 
 //                                    new DB().UpdateCombinacaoAtraso(combinacao[0], p11, p12, p13, p14, p15);
                                 }
@@ -231,13 +237,8 @@ namespace Lotogrinder
 
                         sb.Replace(", WHERE", " WHERE");
 
-                        if (n % 5000 == 0 || n == 268760)
+                        if (n % 5000 == 0 || n == 3268760)
                         {
-                            if (n == 268760)
-                            {
-                                ;
-                            }
-
                             new DB().Exec(sb);
                             sb.Clear();
                             Console.Write("\rGravando {0}...", n);

@@ -89,7 +89,7 @@ namespace Lotogrinder
                         Console.WriteLine("Início: {0}", inicio.ToString("dd/MM/yyyy hh:mm:ss"));
                         Console.WriteLine();
 
-                        Grinder.ProcessarAtraso(3000001, 3268760, false);
+                        Grinder.ProcessarAtraso(1, 3268760, false);
 
                         DateTime termino = DateTime.Now;
 
