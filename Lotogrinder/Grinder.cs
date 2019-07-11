@@ -118,6 +118,13 @@ namespace Lotogrinder
 
             listaConcursos = new DB().SelectConcursos(atual);
 
+            if (atual)
+            {
+                Console.WriteLine();
+                Console.WriteLine("Processando o concurso atual: {0}", listaConcursos[0][0].ToString());
+                Console.WriteLine();
+            }
+
             StringBuilder sb = new StringBuilder();
 
             sb.AppendFormat("SELECT * FROM tbCombinacao WHERE Id BETWEEN {0} AND {1}", inicio, fim);
@@ -159,7 +166,7 @@ namespace Lotogrinder
                             combinacao[14] = reader.GetByte(14);
                             combinacao[15] = reader.GetByte(15);
 
-                            Console.Write("\rProcessando combinação {0}...", combinacao[0]);
+                            Console.Write("\rProcessando atrasos para a combinação {0}...", combinacao[0]);
 
                             int contadorDezena = 0;
 
@@ -223,7 +230,7 @@ namespace Lotogrinder
                         if (item[1] != 0 || item[2] != 0 || item[3] != 0 || item[4] != 0 || item[5] != 0)
                         {
                             n++;
-                            Console.Write("\rAtualizando concurso {0}", n);
+                            Console.Write("\rProcessando combinação {0} - Gravando combinação {1}", m, n);
 
                             sb.AppendLine(@"UPDATE tbCombinacao SET ");
 
