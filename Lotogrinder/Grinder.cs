@@ -197,10 +197,10 @@ namespace Lotogrinder
 
                                 if (contadorDezena > 10)
                                 {
-                                    p11 = contadorDezena >= 11 ? concurso[0] : p11;
-                                    p12 = contadorDezena >= 12 ? concurso[0] : p12;
-                                    p13 = contadorDezena >= 13 ? concurso[0] : p13;
-                                    p14 = contadorDezena >= 14 ? concurso[0] : p14;
+                                    p11 = contadorDezena == 11 ? concurso[0] : p11;
+                                    p12 = contadorDezena == 12 ? concurso[0] : p12;
+                                    p13 = contadorDezena == 13 ? concurso[0] : p13;
+                                    p14 = contadorDezena == 14 ? concurso[0] : p14;
                                     p15 = contadorDezena == 15 ? concurso[0] : p15;
 
 //                                    new DB().UpdateCombinacaoAtraso(combinacao[0], p11, p12, p13, p14, p15);
