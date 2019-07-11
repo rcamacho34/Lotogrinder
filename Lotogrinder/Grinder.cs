@@ -213,37 +213,42 @@ namespace Lotogrinder
 
                     sb.Clear();
 
+                    int m = 0;
                     int n = 0;
 
                     foreach (int[] item in listaCombinacaoConcurso)
                     {
-                        n++;
-                        Console.Write("\rAtualizando concurso {0}", n);
+                        m++;
 
-                        sb.AppendLine(@"UPDATE tbCombinacao SET ");
-
-                        if (item[1] != 0)
-                            sb.AppendFormat("IdUltimoConcurso11 = {0}, ", item[1]);
-                        if (item[2] != 0)
-                            sb.AppendFormat("IdUltimoConcurso12 = {0}, ", item[2]);
-                        if (item[3] != 0)
-                            sb.AppendFormat("IdUltimoConcurso13 = {0}, ", item[3]);
-                        if (item[4] != 0)
-                            sb.AppendFormat("IdUltimoConcurso14 = {0}, ", item[4]);
-                        if (item[5] != 0)
-                            sb.AppendFormat("IdUltimoConcurso15 = {0}, ", item[5]);
-
-                        sb.AppendFormat("WHERE Id = {0} \n", item[0]);
-
-                        sb.Replace(", WHERE", " WHERE");
-
-                        if (n % 5000 == 0 || n == 3268760)
+                        if (item[1] != 0 || item[2] != 0 || item[3] != 0 || item[4] != 0 || item[5] != 0)
                         {
-                            new DB().Exec(sb);
-                            sb.Clear();
-                            Console.Write("\rGravando {0}...", n);
-                        }
+                            n++;
+                            Console.Write("\rAtualizando concurso {0}", n);
 
+                            sb.AppendLine(@"UPDATE tbCombinacao SET ");
+
+                            if (item[1] != 0)
+                                sb.AppendFormat("IdUltimoConcurso11 = {0}, ", item[1]);
+                            if (item[2] != 0)
+                                sb.AppendFormat("IdUltimoConcurso12 = {0}, ", item[2]);
+                            if (item[3] != 0)
+                                sb.AppendFormat("IdUltimoConcurso13 = {0}, ", item[3]);
+                            if (item[4] != 0)
+                                sb.AppendFormat("IdUltimoConcurso14 = {0}, ", item[4]);
+                            if (item[5] != 0)
+                                sb.AppendFormat("IdUltimoConcurso15 = {0}, ", item[5]);
+
+                            sb.AppendFormat("WHERE Id = {0} \n", item[0]);
+
+                            sb.Replace(", WHERE", " WHERE");
+
+                            if (n % 5000 == 0 || m == 3268760)
+                            {
+                                new DB().Exec(sb);
+                                sb.Clear();
+                                Console.Write("\rGravando {0}...", n);
+                            }
+                        }
                         //new DB().UpdateCombinacaoAtraso(item[0], item[1], item[2], item[3], item[4], item[5]);
                     }
                     Console.WriteLine("\rGravação realizada com sucesso!");
