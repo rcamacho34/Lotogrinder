@@ -337,5 +337,12 @@ namespace Lotogrinder
 
         }
 
+        public void DeletarConcursos()
+        {
+            StringBuilder sb = new StringBuilder("TRUNCATE TABLE tbConcurso");
+
+            Exec(sb);
+        }
+
     }
 }

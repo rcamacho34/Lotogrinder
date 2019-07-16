@@ -19,8 +19,9 @@ namespace Lotogrinder
             string[] concurso = new string[17];
 
             HtmlDocument htmlDoc = new HtmlDocument();
+            string ArquivoResultados = ConfigurationManager.AppSettings["CAMINHO_RESULTADOS"].ToString();
 
-            htmlDoc.Load(@"C:\Loterias\d_lotfac.htm");
+            htmlDoc.Load(ArquivoResultados);
 
             if (htmlDoc.ParseErrors != null && htmlDoc.ParseErrors.Count() > 0)
             {

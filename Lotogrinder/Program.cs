@@ -73,6 +73,9 @@ namespace Lotogrinder
                 }
                 else if (opcao.Key == ConsoleKey.D2)
                 {
+                    Console.WriteLine("\nDeletando todos os concursos...");
+                    new DB().DeletarConcursos();
+
                     Console.WriteLine("\nGravando todos os concursos...");
                     List<string[]> listaConcursos = Grinder.LerConcursos();
 
