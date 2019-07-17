@@ -8,6 +8,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Configuration;
 using System.IO;
+using System.Collections;
 
 namespace Lotogrinder
 {
@@ -273,6 +274,183 @@ namespace Lotogrinder
                 }
             }
         }
+
+        public static void ProcessarUltimosAtrasos(int inicio, int fim)
+        {
+            List<int[]> listaCombinacaoAtrasos = new List<int[]>();
+            List<int> cincoAtrasos = new List<int>();
+
+            int[] combinacao = new int[16];
+
+            int atraso = 0;
+
+            List<int> atrasos = new List<int>();
+
+            List<int[]> listaConcursos = new List<int[]>();
+
+            listaConcursos = new DB().SelectConcursos(false);
+
+            StringBuilder sb = new StringBuilder();
+
+            sb.AppendFormat("SELECT * FROM tbCombinacao WHERE Id BETWEEN {0} AND {1}", inicio, fim);
+            //sb.AppendLine("SELECT * FROM tbCombinacao WHERE Id IN (2220138, 207651, 216411, 1134789)");
+
+            using (SqlConnection con = new DB().Conn())
+            {
+                con.Open();
+
+                DateTime inicioLote = DateTime.Now;
+
+                using (SqlCommand cmd = new SqlCommand(sb.ToString(), con))
+                {
+                    cmd.CommandType = CommandType.Text;
+
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        Console.WriteLine("Processando combinações: {0} a {1}...", inicio, fim);
+                        Console.WriteLine();
+
+                        // Loop Combinações
+                        while (reader.Read())
+                        {
+                            combinacao = new int[16];
+
+                            combinacao[0] = reader.GetInt32(0);
+                            combinacao[1] = reader.GetByte(1);
+                            combinacao[2] = reader.GetByte(2);
+                            combinacao[3] = reader.GetByte(3);
+                            combinacao[4] = reader.GetByte(4);
+                            combinacao[5] = reader.GetByte(5);
+                            combinacao[6] = reader.GetByte(6);
+                            combinacao[7] = reader.GetByte(7);
+                            combinacao[8] = reader.GetByte(8);
+                            combinacao[9] = reader.GetByte(9);
+                            combinacao[10] = reader.GetByte(10);
+                            combinacao[11] = reader.GetByte(11);
+                            combinacao[12] = reader.GetByte(12);
+                            combinacao[13] = reader.GetByte(13);
+                            combinacao[14] = reader.GetByte(14);
+                            combinacao[15] = reader.GetByte(15);
+
+                            Console.Write("\rProcessando atrasos para a combinação {0}...", combinacao[0]);
+
+                            int contadorDezena = 0;
+
+                            atrasos.Clear();
+                            cincoAtrasos.Clear();
+
+                            atraso = 0;
+
+                            // Loop Concursos
+                            foreach (int[] concurso in listaConcursos)
+                            {
+                                contadorDezena = 0;
+
+                                //Loop dezenas da combinação
+                                for (int i = 1; i <= 15; i++)
+                                {
+                                    // Loop dezenas do concurso
+                                    for (int j = 1; j <= 15; j++)
+                                    {
+                                        // match
+                                        if (combinacao[i] == concurso[j])
+                                        {
+                                            contadorDezena++;
+                                        }
+                                    }
+                                }
+
+                                // Se não premiou, contabiliza mais um atraso
+                                if (contadorDezena <= 10)
+                                {
+                                    atraso++;
+                                }
+                                // Se premiou, zera os atrasos e inclui o valor na lista de atrasos
+                                else
+                                {
+                                    atrasos.Add(atraso);
+                                    atraso = 0;
+                                }
+
+                            } // loop Concursos                            
+
+                            // Adiciona o último atraso
+                            if (atraso > 0)
+                            {
+                                atrasos.Add(atraso);
+                            }
+
+                            cincoAtrasos = atrasos.OrderByDescending(i => i).ToList<int>();
+
+                            listaCombinacaoAtrasos.Add(
+                                new int[] { combinacao[0], cincoAtrasos[0], cincoAtrasos[1], cincoAtrasos[2],
+                                            cincoAtrasos[3], cincoAtrasos[4] }
+                            );
+
+                        } // loop Combinações
+
+                    }
+
+                    Console.WriteLine();
+
+                    sb.Clear();
+
+                    int m = 0;
+                    int n = 0;
+
+                    foreach (int[] item in listaCombinacaoAtrasos)
+                    {
+                        m++;
+
+                        if (item[1] != 0 || item[2] != 0 || item[3] != 0 || item[4] != 0 || item[5] != 0)
+                        {
+                            n++;
+                            Console.Write("\rProcessando combinação {0} - Gravando combinação {1}", m, n);
+
+                            sb.AppendLine(@"UPDATE tbCombinacaoAtraso SET ");
+
+                            if (item[1] != 0)
+                                sb.AppendFormat("IdAtraso01 = {0}, ", item[1]);
+                            if (item[2] != 0)
+                                sb.AppendFormat("IdAtraso02 = {0}, ", item[2]);
+                            if (item[3] != 0)
+                                sb.AppendFormat("IdAtraso03 = {0}, ", item[3]);
+                            if (item[4] != 0)
+                                sb.AppendFormat("IdAtraso04 = {0}, ", item[4]);
+                            if (item[5] != 0)
+                                sb.AppendFormat("IdAtraso05 = {0}, ", item[5]);
+
+                            sb.AppendFormat("WHERE Id = {0} \n", item[0]);
+
+                            sb.Replace(", WHERE", " WHERE");
+
+                            if (n % 5000 == 0 || m == 3268760)
+                            {
+                                new DB().Exec(sb);
+                                sb.Clear();
+                                Console.Write("\rGravando {0}...", n);
+                            }
+                        }
+                        //new DB().UpdateCombinacaoAtraso(item[0], item[1], item[2], item[3], item[4], item[5]);
+                    }
+                    Console.WriteLine("\rGravação realizada com sucesso!");
+
+                    //Console.WriteLine("Gravando {0} linhas...", listaCombinacaoConcurso.Count);
+                    //new DB().BulkCombinacaoConcurso(listaCombinacaoConcurso, tabela);
+
+                    DateTime fimLote = DateTime.Now;
+
+                    TimeSpan duracaoLote = fimLote - inicioLote;
+
+                    Console.WriteLine("Gravação realizada com sucesso! Duração: {0}", duracaoLote.ToString());
+                    Console.WriteLine();
+                }
+            }
+        }
+
+
+
+
 
         public static void GerarScriptCombinacaoConcurso(int qtdTabelas)
         {
