@@ -22,13 +22,14 @@ namespace Lotogrinder
                 Console.WriteLine("[3] - Baixar resultado do concurso atual");
                 Console.WriteLine("[4] - Processar atraso das combinações ");
                 Console.WriteLine("[5] - Processar atraso concurso atual ");
-                Console.WriteLine("[6] - Processar 5 últimos atrasos das combinações ");
+                Console.WriteLine("[6] - Processar premiação das combinações ");
+                Console.WriteLine("[7] - Processar 5 últimos atrasos das combinações ");
                 Console.WriteLine("[0] - Sair ");
                 Console.WriteLine();
                 Console.WriteLine("Escolha a opção desejada:");
                 opcao = Console.ReadKey();
             }
-            while (opcao.Key != ConsoleKey.D1 && opcao.Key != ConsoleKey.D2 && opcao.Key != ConsoleKey.D3 && opcao.Key != ConsoleKey.D4 && opcao.Key != ConsoleKey.D5 && opcao.Key != ConsoleKey.D6 && opcao.Key != ConsoleKey.D0);
+            while (opcao.Key != ConsoleKey.D1 && opcao.Key != ConsoleKey.D2 && opcao.Key != ConsoleKey.D3 && opcao.Key != ConsoleKey.D4 && opcao.Key != ConsoleKey.D5 && opcao.Key != ConsoleKey.D6 && opcao.Key != ConsoleKey.D7 && opcao.Key != ConsoleKey.D0);
 
             Console.WriteLine();
 
@@ -138,6 +139,36 @@ namespace Lotogrinder
                     Console.Read();
                 }
                 else if (opcao.Key == ConsoleKey.D6)
+                {
+                    do
+                    {
+                        DateTime inicio = DateTime.Now;
+
+                        Console.WriteLine();
+                        Console.WriteLine("Início: {0}", inicio.ToString("dd/MM/yyyy hh:mm:ss"));
+                        Console.WriteLine();
+
+                        Grinder.ProcessarPremiacoes(400001, 500000);
+
+                        DateTime termino = DateTime.Now;
+
+                        Console.WriteLine();
+                        Console.WriteLine("Término: {0}", termino.ToString("dd/MM/yyyy hh:mm:ss"));
+                        Console.WriteLine();
+
+                        TimeSpan duracao = termino - inicio;
+
+                        Console.WriteLine();
+                        Console.WriteLine("Duração: {0}", duracao.ToString());
+                        Console.WriteLine();
+
+                        Console.WriteLine();
+                        Console.Write("Processar novos lotes? [S/N]: ");
+                        opcao = Console.ReadKey();
+                    }
+                    while (opcao.Key != ConsoleKey.N);
+                }
+                else if (opcao.Key == ConsoleKey.D7)
                 {
                     do
                     {
