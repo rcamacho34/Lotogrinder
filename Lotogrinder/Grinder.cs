@@ -832,6 +832,7 @@ namespace Lotogrinder
 
                                     AtrasoAtual++;
 
+
                                     if (AtrasoAtual > atrasos[0])
                                     {
                                         atrasos.Add(AtrasoAtual);
