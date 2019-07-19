@@ -1,7 +1,7 @@
-select * from tbCombinacao where IdUltimoConcurso15 is not null
-select * from tbCombinacao where IdUltimoConcurso14 is not null
-select min(IdUltimoConcurso15) from tbCombinacao where IdUltimoConcurso15 is not null
-select * from tbCombinacao where IdUltimoConcurso15 is not null order by IdUltimoConcurso15 desc
+select * from tbCombinacao where IdUltimo15 is not null
+select * from tbCombinacao where IdUltimo14 is not null
+select min(IdUltimo15) from tbCombinacao where IdUltimo15 is not null
+select * from tbCombinacao where IdUltimo15 is not null order by IdUltimo15 desc
 
 
 select * from tbConcurso where Id = 1837
@@ -13,23 +13,23 @@ select * from tbCombinacao where Id in (1963386,
 2862791)
 
 
-SELECT Id, IdUltimoConcurso11, IdUltimoConcurso12, IdUltimoConcurso13, IdUltimoConcurso14, IdUltimoConcurso15,
+SELECT Id, IdUltimo11, IdUltimo12, IdUltimo13, IdUltimo14, IdUltimo15,
 		Concursos11, Concursos12, Concursos13, Concursos14, Concursos15,
 		(SELECT MIN(Col) FROM (VALUES (Concursos11), (Concursos12), (Concursos13), (Concursos14), (Concursos15)) AS X(Col)) AS MaiorAtraso
 FROM
 (
 	SELECT 
 		CB.Id, 
-		CB.IdUltimoConcurso11, 
-		CB.IdUltimoConcurso12,
-		CB.IdUltimoConcurso13,
-		CB.IdUltimoConcurso14,
-		CB.IdUltimoConcurso15,
-		(SELECT MAX(Id) FROM tbConcurso) - CB.IdUltimoConcurso11 As Concursos11,
-		(SELECT MAX(Id) FROM tbConcurso) - CB.IdUltimoConcurso12 As Concursos12,
-		(SELECT MAX(Id) FROM tbConcurso) - CB.IdUltimoConcurso13 As Concursos13,
-		(SELECT MAX(Id) FROM tbConcurso) - CB.IdUltimoConcurso14 As Concursos14,
-		(SELECT MAX(Id) FROM tbConcurso) - CB.IdUltimoConcurso15 As Concursos15
+		CB.IdUltimo11, 
+		CB.IdUltimo12,
+		CB.IdUltimo13,
+		CB.IdUltimo14,
+		CB.IdUltimo15,
+		(SELECT MAX(Id) FROM tbConcurso) - CB.IdUltimo11 As Concursos11,
+		(SELECT MAX(Id) FROM tbConcurso) - CB.IdUltimo12 As Concursos12,
+		(SELECT MAX(Id) FROM tbConcurso) - CB.IdUltimo13 As Concursos13,
+		(SELECT MAX(Id) FROM tbConcurso) - CB.IdUltimo14 As Concursos14,
+		(SELECT MAX(Id) FROM tbConcurso) - CB.IdUltimo15 As Concursos15
 	FROM tbCombinacao CB
 ) A
 ORDER BY MaiorAtraso DESC

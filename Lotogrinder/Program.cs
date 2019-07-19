@@ -25,6 +25,7 @@ namespace Lotogrinder
                 Console.WriteLine("[6] - Processar premiação das combinações ");
                 Console.WriteLine("[7] - Processar 5 últimos atrasos das combinações ");
                 Console.WriteLine("[8] - Processar Concurso Atual ");
+                Console.WriteLine("[9] - Processar Todos os Concursos ");
                 Console.WriteLine("[0] - Sair ");
                 Console.WriteLine();
                 Console.WriteLine("Escolha a opção desejada:");
@@ -34,7 +35,7 @@ namespace Lotogrinder
                     opcao.Key != ConsoleKey.D3 && opcao.Key != ConsoleKey.D4 && 
                     opcao.Key != ConsoleKey.D5 && opcao.Key != ConsoleKey.D6 && 
                     opcao.Key != ConsoleKey.D7 && opcao.Key != ConsoleKey.D8 && 
-                    opcao.Key != ConsoleKey.D0);
+                    opcao.Key != ConsoleKey.D9 && opcao.Key != ConsoleKey.D0);
 
             Console.WriteLine();
 
@@ -211,7 +212,31 @@ namespace Lotogrinder
                     Console.WriteLine("Início: {0}", inicio.ToString("dd/MM/yyyy hh:mm:ss"));
                     Console.WriteLine();
 
-                    Grinder.ProcessarConcursoAtual(100001, 3268760);
+                    Grinder.ProcessarConcursoAtual(1, 100000);
+
+                    DateTime termino = DateTime.Now;
+
+                    Console.WriteLine();
+                    Console.WriteLine("Término: {0}", termino.ToString("dd/MM/yyyy hh:mm:ss"));
+                    Console.WriteLine();
+
+                    TimeSpan duracao = termino - inicio;
+
+                    Console.WriteLine();
+                    Console.WriteLine("Duração: {0}", duracao.ToString());
+                    Console.WriteLine();
+                    Console.Write("Tecle <ENTER> para encerrar...");
+                    Console.Read();
+                }
+                else if (opcao.Key == ConsoleKey.D9)
+                {
+                    DateTime inicio = DateTime.Now;
+
+                    Console.WriteLine();
+                    Console.WriteLine("Início: {0}", inicio.ToString("dd/MM/yyyy hh:mm:ss"));
+                    Console.WriteLine();
+
+                    Grinder.ProcessarTodosConcursos(1, 100000);
 
                     DateTime termino = DateTime.Now;
 

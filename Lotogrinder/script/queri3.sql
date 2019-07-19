@@ -10,6 +10,7 @@ AND C.TotalPremiacao > 240
 ORDER BY AtrasoAtual desc
 
 
+
 select * from tbConcurso
 
 
