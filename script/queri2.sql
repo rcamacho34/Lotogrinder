@@ -13,9 +13,9 @@ select * from tbCombinacao where Id in (1963386,
 2862791)
 
 
-SELECT top 100 Id, IdUltimoConcurso11, IdUltimoConcurso12, IdUltimoConcurso13, IdUltimoConcurso14, IdUltimoConcurso15,
+SELECT Id, IdUltimoConcurso11, IdUltimoConcurso12, IdUltimoConcurso13, IdUltimoConcurso14, IdUltimoConcurso15,
 		Concursos11, Concursos12, Concursos13, Concursos14, Concursos15,
-		(SELECT MIN(Col) FROM (VALUES (Concursos11), (Concursos12)) AS X(Col)) AS MaiorAtraso
+		(SELECT MIN(Col) FROM (VALUES (Concursos11), (Concursos12), (Concursos13), (Concursos14), (Concursos15)) AS X(Col)) AS MaiorAtraso
 FROM
 (
 	SELECT 

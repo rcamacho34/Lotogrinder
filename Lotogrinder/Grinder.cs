@@ -314,7 +314,7 @@ namespace Lotogrinder
             StringBuilder sb = new StringBuilder();
 
             sb.AppendFormat("SELECT * FROM tbCombinacao WHERE Id BETWEEN {0} AND {1}", inicio, fim);
-            //sb.AppendLine("SELECT * FROM tbCombinacao WHERE Id IN (2220138, 207651, 216411, 1134789)");
+            //sb.AppendLine("SELECT * FROM tbCombinacao WHERE Id IN (260055)");
 
             using (SqlConnection con = new DB().Conn())
             {
@@ -445,7 +445,7 @@ namespace Lotogrinder
 
                             sb.Replace(", WHERE", " WHERE");
 
-                            if (n % 5000 == 0 || m == 3268760)
+                            if (n % 5000 == 0 || m == 3268760 || listaCombinacaoAtrasos.Count == 1)
                             {
                                 new DB().Exec(sb);
                                 sb.Clear();
@@ -680,8 +680,8 @@ namespace Lotogrinder
 
             StringBuilder sb = new StringBuilder();
 
-            //sb.AppendFormat("SELECT * FROM tbCombinacao WHERE Id BETWEEN {0} AND {1}", inicio, fim);
-            sb.AppendFormat("SELECT * FROM tbCombinacao WHERE Id = {0}", 260055);
+            sb.AppendFormat("SELECT * FROM tbCombinacao WHERE Id BETWEEN {0} AND {1}", inicio, fim);
+            //sb.AppendFormat("SELECT * FROM tbCombinacao WHERE Id = {0}", 260055);
 
             using (SqlConnection con = new DB().Conn())
             {
@@ -813,12 +813,22 @@ namespace Lotogrinder
 
                                     // Se premiado, cinco maiores atrasos não mudam, e zera o atraso atual
                                     AtrasoAtual = 0;
+
+                                    cincoAtrasos = atrasos;
                                 }
                                 // Não Premiado
                                 else
                                 {
                                     // Se não premiado, incrementa o Atraso Atual e recalcula os cinco maiores atrasos,
                                     // caso o atraso atual supere o primeiro atraso.
+
+                                    for (int k = 0; k < 6; k++)
+                                    {
+                                        if (AtrasoAtual == atrasos[k])
+                                        {
+                                            atrasos[k] = atrasos[k] + 1;
+                                        }                                        
+                                    }
 
                                     AtrasoAtual++;
 
@@ -838,6 +848,9 @@ namespace Lotogrinder
                                             cincoAtrasos[0], cincoAtrasos[1], cincoAtrasos[2], cincoAtrasos[3], cincoAtrasos[4],
                                             AtrasoAtual }
                             );
+
+                            atrasos.Clear();
+                            cincoAtrasos.Clear();
 
                         } // loop Combinações
 
