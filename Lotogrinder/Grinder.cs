@@ -680,22 +680,7 @@ namespace Lotogrinder
 
             StringBuilder sb = new StringBuilder();
 
-            //sb.AppendFormat("SELECT * FROM tbCombinacao WHERE Id BETWEEN {0} AND {1}", inicio, fim);
-            sb.AppendLine(@"SELECT * FROM tbCombinacao WHERE Id IN (32864
-                                                                    ,70548
-                                                                    ,89721
-                                                                    ,167395
-                                                                    ,259800
-                                                                    ,260055
-                                                                    ,270301
-                                                                    ,342489
-                                                                    ,483335
-                                                                    ,484464
-                                                                    ,548819
-                                                                    ,1235151
-                                                                    ,2001022
-                                                                    ,2119174
-                                                                    ,2875810)");
+            sb.AppendFormat("SELECT * FROM tbCombinacao WHERE Id BETWEEN {0} AND {1}", inicio, fim);
 
             using (SqlConnection con = new DB().Conn())
             {
@@ -926,12 +911,12 @@ namespace Lotogrinder
 
                             sb.Replace(", WHERE", " WHERE");
 
-                            //if (n % 5000 == 0 || m == 3268760 || listaCombinacao.Count == 1)
-                            //{
+                            if (n % 5000 == 0 || m == 3268760 || listaCombinacao.Count == 1)
+                            {
                                 new DB().Exec(sb);
                                 sb.Clear();
                                 Console.Write("\rGravando {0}...", n);
-                            //}
+                            }
                         }
                     }
                     Console.WriteLine("\rGravação realizada com sucesso!");
@@ -981,22 +966,7 @@ namespace Lotogrinder
 
             StringBuilder sb = new StringBuilder();
 
-            //sb.AppendFormat("SELECT * FROM tbCombinacao WHERE Id BETWEEN {0} AND {1}", inicio, fim);
-            sb.AppendLine(@"SELECT * FROM tbCombinacao WHERE Id IN (32864
-                                                                    ,70548
-                                                                    ,89721
-                                                                    ,167395
-                                                                    ,259800
-                                                                    ,260055
-                                                                    ,270301
-                                                                    ,342489
-                                                                    ,483335
-                                                                    ,484464
-                                                                    ,548819
-                                                                    ,1235151
-                                                                    ,2001022
-                                                                    ,2119174
-                                                                    ,2875810)");
+            sb.AppendFormat("SELECT * FROM tbCombinacao WHERE Id BETWEEN {0} AND {1}", inicio, fim);
 
             Console.WriteLine();
             Console.WriteLine("Processando até o último concurso ({0})...", concursoAtual);
@@ -1231,12 +1201,12 @@ namespace Lotogrinder
 
                             sb.Replace(", WHERE", " WHERE");
 
-                            //if (n % 5000 == 0 || m == 3268760 || listaCombinacao.Count == 1)
-                            //{
+                            if (n % 5000 == 0 || m == 3268760 || listaCombinacao.Count == 1)
+                            {
                                 new DB().Exec(sb);
                                 sb.Clear();
                                 Console.Write("\rGravando {0}...", n);
-                            //}
+                            }
                         }
                     }
                     Console.WriteLine("\rGravação realizada com sucesso!");

@@ -212,7 +212,7 @@ namespace Lotogrinder
                     Console.WriteLine("Início: {0}", inicio.ToString("dd/MM/yyyy hh:mm:ss"));
                     Console.WriteLine();
 
-                    Grinder.ProcessarConcursoAtual(1, 100000);
+                    Grinder.ProcessarConcursoAtual(1, 3268760);
 
                     DateTime termino = DateTime.Now;
 
@@ -236,7 +236,7 @@ namespace Lotogrinder
                     Console.WriteLine("Início: {0}", inicio.ToString("dd/MM/yyyy hh:mm:ss"));
                     Console.WriteLine();
 
-                    Grinder.ProcessarTodosConcursos(1, 100000);
+                    Grinder.ProcessarTodosConcursos(1, 3268760);
 
                     DateTime termino = DateTime.Now;
 

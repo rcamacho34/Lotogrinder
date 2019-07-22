@@ -1,3 +1,13 @@
+select * from tbCombinacao order by TotalPremiacao desc
+132144
+105871
+
+select * from tbCombinacao where d1 = 1 and d2 = 2 and d3 = 3 and d4 = 4 and d5 = 5 and d6 = 7 and d7 = 8 and d8 = 10 and d9 = 11 and d10 = 13 and d11 = 18 and d12 = 20 and d13 = 23 and d14 = 24 and d15 = 25
+
+select * From tbCombinacao
+where id in (132144, 105871, 19554)
+
+
 select * From tbCombinacao
 where id in (
 32864

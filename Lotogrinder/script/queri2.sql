@@ -6,6 +6,8 @@ select * from tbCombinacao where IdUltimo15 is not null order by IdUltimo15 desc
 
 select * from tbConcurso where Id = 1837
 
+select * from tbCombinacao where Id = 19554
+
 select * from tbCombinacao where Id in (1963386,
 19554,
 2185184,
