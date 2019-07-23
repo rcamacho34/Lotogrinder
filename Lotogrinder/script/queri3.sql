@@ -7,7 +7,7 @@ WHERE C.Atraso01 IS NOT NULL
 AND C.Atraso01 - C.Atraso05 < 6
 AND C.AtrasoAtual > C.Atraso05
 AND C.TotalPremiacao > 240
-ORDER BY AtrasoAtual desc
+ORDER BY MediaPremiacao 
 
 
 

@@ -68,6 +68,7 @@
     <Content Include="script\queri.sql" />
     <Content Include="script\queri2.sql" />
     <Content Include="script\queri3.sql" />
+    <Content Include="script\queri4.sql" />
     <Content Include="script\queri_mg.sql" />
     <Content Include="script\unpivot_pivot.sql" />
   </ItemGroup>
