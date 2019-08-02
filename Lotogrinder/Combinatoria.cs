@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -92,7 +93,7 @@ namespace Lotogrinder
 
         public static void GravarCombinacoesTXT(List<int[]> listaCombinacoes)
         {
-            string caminho = @"D:\LF\";
+            string caminho = ConfigurationManager.AppSettings["CAMINHO_COMBINACOES"].ToString();
             string arquivo = "LFcombinacoes.txt";
             string linha = "";
 

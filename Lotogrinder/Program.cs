@@ -292,14 +292,14 @@ namespace Lotogrinder
                 Console.WriteLine();
             }
 
-            //Console.WriteLine();
-            //Console.Write("Gravar em arquivo TXT? [S/N]:");
-            //string s = Console.ReadLine();
+            Console.WriteLine();
+            Console.Write("Gravar em arquivo TXT? [S/N]:");
+            string s = Console.ReadLine();
 
-            //if (s.ToUpper() == "S")
-            //{
-            //    Combinatoria.GravarCombinacoesTXT(listaCombinacoes);
-            //}
+            if (s.ToUpper() == "S")
+            {
+                Combinatoria.GravarCombinacoesTXT(listaCombinacoes);
+            }
 
             //Console.WriteLine();
             //Console.Write("Gravar em tabela? [S/N]:");
@@ -307,9 +307,9 @@ namespace Lotogrinder
 
             //if (s2.ToUpper() == "S")
             //{
-            Console.WriteLine("\nGravando...");
-            new DB().BulkCombinacao(listaCombinacoes);
-            Console.WriteLine("Gravado com sucesso!");
+            //Console.WriteLine("\nGravando...");
+            //new DB().BulkCombinacao(listaCombinacoes);
+            //Console.WriteLine("Gravado com sucesso!");
             //}
 
         }

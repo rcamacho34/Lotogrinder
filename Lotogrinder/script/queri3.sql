@@ -4,7 +4,7 @@ SELECT Id, d1, d2, d3, d4, d5, d6, d7, d8, d9, d10, d11, d12, d13, d14, d15,
 		Atraso01, Atraso02, Atraso03, Atraso04, Atraso05, AtrasoAtual
 FROM tbCombinacao C
 WHERE C.Atraso01 IS NOT NULL
-AND C.Atraso01 - C.Atraso05 < 6
+AND C.Atraso01 - C.Atraso05 < 7
 AND C.AtrasoAtual > C.Atraso05
 AND C.TotalPremiacao > 240
 ORDER BY MediaPremiacao 
