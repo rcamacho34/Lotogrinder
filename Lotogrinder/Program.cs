@@ -12,7 +12,8 @@ namespace Lotogrinder
         {
             ConsoleKeyInfo opcao;
 
-            Console.WriteLine("*******       GERADOR DE COMBINAÇÒES       *******");
+            Console.WriteLine();
+            Console.WriteLine("*******       LOTOGRINDER - Analisador Lotérico v 0.0       *******");
             Console.WriteLine();
 
             do

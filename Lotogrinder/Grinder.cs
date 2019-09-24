@@ -850,7 +850,8 @@ namespace Lotogrinder
 
                     }
 
-                    Console.WriteLine(DateTime.Now.ToString("dd/MM/yyyy hh:mm:ss"));
+                    Console.WriteLine("\n\nCombinações processadas. Iniciando gravação... " + DateTime.Now.ToString("dd/MM/yyyy hh:mm:ss"));
+                    Console.WriteLine();
 
                     sb.Clear();
 
@@ -911,7 +912,7 @@ namespace Lotogrinder
 
                             sb.Replace(", WHERE", " WHERE");
 
-                            if (n % 5000 == 0 || m == 3268760 || listaCombinacao.Count == 1)
+                            if (n % 50 == 0 || m == 3268760 || listaCombinacao.Count == 1)
                             {
                                 new DB().Exec(sb);
                                 sb.Clear();
@@ -1140,7 +1141,8 @@ namespace Lotogrinder
 
                     }
 
-                    Console.WriteLine(DateTime.Now.ToString("dd/MM/yyyy hh:mm:ss"));
+                    Console.WriteLine("\n\nCombinações processadas. Iniciando gravação... " + DateTime.Now.ToString("dd/MM/yyyy hh:mm:ss"));
+                    Console.WriteLine();
 
                     sb.Clear();
 
@@ -1201,7 +1203,7 @@ namespace Lotogrinder
 
                             sb.Replace(", WHERE", " WHERE");
 
-                            if (n % 5000 == 0 || m == 3268760 || listaCombinacao.Count == 1)
+                            if (n % 1000 == 0 || m == 3268760 || listaCombinacao.Count == 1)
                             {
                                 new DB().Exec(sb);
                                 sb.Clear();
