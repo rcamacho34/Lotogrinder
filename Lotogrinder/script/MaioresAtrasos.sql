@@ -6,17 +6,18 @@ select * from tbCombinacao where IdUltimo15 is not null order by IdUltimo15 desc
 
 select * from tbConcurso where Id = 1837
 
-select * from tbCombinacao where Id = 19554
-select * from tbCombinacao where Id = 2252722
+select * from tbCombinacao where IdUltimo11 = 1865
 
 
+select * from tbCombinacao where Id = 383625
 
 
 select * from tbCombinacao where Id = 132144
 
 
+select * from tbCombinacao where Id = 19775
+select * from tbCombinacao where Id = 2682967
 
-select * from tbCombinacao where Id = 260055
 
 
 

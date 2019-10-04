@@ -13,7 +13,7 @@ namespace Lotogrinder
             ConsoleKeyInfo opcao;
 
             Console.WriteLine();
-            Console.WriteLine("*******       LOTOGRINDER - Analisador Lotérico v 0.0       *******");
+            Console.WriteLine("*******       LOTOGRINDER - Analisador Lotérico (v 0.0)       *******");
             Console.WriteLine();
 
             do
