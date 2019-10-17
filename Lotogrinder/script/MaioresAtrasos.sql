@@ -1,6 +1,10 @@
 
+select max(id) from tbConcurso
+
 
 select * from tbCombinacao where Id = 49895
+select * from tbCombinacao where Id = 234464
+
 
 
 
