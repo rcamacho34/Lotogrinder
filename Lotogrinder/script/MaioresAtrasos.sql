@@ -4,9 +4,9 @@ select min(IdUltimo15) from tbCombinacao where IdUltimo15 is not null
 select * from tbCombinacao where IdUltimo15 is not null order by IdUltimo15 desc
 
 
-select * from tbConcurso where Id = 1837
+select max(id) from tbConcurso
 
-select * from tbCombinacao where IdUltimo11 = 1865
+select * from tbCombinacao where IdUltimo11 = 1872
 
 
 select * from tbCombinacao where Id = 383625

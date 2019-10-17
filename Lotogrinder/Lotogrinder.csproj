@@ -60,14 +60,14 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="script\CincoAtrasos.sql" />
     <Content Include="script\clearlog.sql" />
     <Content Include="script\consulta concurso.sql" />
     <Content Include="script\DB_LF.sql" />
     <Content Include="script\InserirConcursoAtual.sql" />
     <Content Include="script\Insert Concurso.sql" />
+    <Content Include="script\MaioresAtrasos.sql" />
     <Content Include="script\queri.sql" />
-    <Content Include="script\queri2.sql" />
-    <Content Include="script\queri3.sql" />
     <Content Include="script\queri4.sql" />
     <Content Include="script\queri_mg.sql" />
     <Content Include="script\unpivot_pivot.sql" />
