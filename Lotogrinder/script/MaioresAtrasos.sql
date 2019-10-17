@@ -1,31 +1,10 @@
-select * from tbCombinacao where IdUltimo15 is not null
-select * from tbCombinacao where IdUltimo14 is not null
-select min(IdUltimo15) from tbCombinacao where IdUltimo15 is not null
-select * from tbCombinacao where IdUltimo15 is not null order by IdUltimo15 desc
 
 
-select * from tbConcurso where Id = 1837
-
-select * from tbCombinacao where IdUltimo11 = 1865
-
-
-select * from tbCombinacao where Id = 383625
-
-
-select * from tbCombinacao where Id = 132144
-
-
-select * from tbCombinacao where Id = 19775
-select * from tbCombinacao where Id = 2682967
+select * from tbCombinacao where Id = 49895
 
 
 
 
-select * from tbCombinacao where Id in (1963386,
-19554,
-2185184,
-2173413,
-2862791)
 
 
 SELECT top 15 Id, IdUltimo11, IdUltimo12, IdUltimo13, IdUltimo14, IdUltimo15,
