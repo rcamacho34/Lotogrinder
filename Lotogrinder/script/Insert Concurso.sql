@@ -1,1 +1,2 @@
+
 INSERT INTO tbConcurso VALUES (1831, convert(date, '2019-06-24'), 2,4,5,8,9,10,12,14,16,18,19,20,21,22,23)
